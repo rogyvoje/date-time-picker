@@ -3,13 +3,7 @@
  */
 
 import { EventEmitter } from '@angular/core';
-import {
-    async,
-    ComponentFixture,
-    fakeAsync,
-    flush,
-    TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { Component, DebugElement, NgZone } from '@angular/core';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
@@ -49,7 +43,7 @@ class MockNgZone extends NgZone {
 describe('OwlTimerComponent', () => {
     let zone: MockNgZone;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [StandardTimerComponent],

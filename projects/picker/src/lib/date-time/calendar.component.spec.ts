@@ -2,12 +2,7 @@
  * calendar.component.spec
  */
 
-import {
-    async,
-    ComponentFixture,
-    inject,
-    TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, NgZone } from '@angular/core';
 import {
     MockNgZone,
@@ -41,7 +36,7 @@ export const JAN = 0,
 describe('OwlCalendarComponent', () => {
     let zone: MockNgZone;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [
@@ -79,7 +74,7 @@ describe('OwlCalendarComponent', () => {
             testComponent = fixture.componentInstance;
         });
 
-        it('should be in month view with specified month active', async(() => {
+        it('should be in month view with specified month active', waitForAsync(() => {
             expect(calendarInstance.currentView).toBe('month');
             expect(calendarInstance.pickerMoment).toEqual(
                 new Date(2018, JAN, 31)
