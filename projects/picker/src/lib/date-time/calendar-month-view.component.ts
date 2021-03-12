@@ -14,18 +14,18 @@ import {
     OnInit,
     Optional,
     Output,
-    ViewChild
+    ViewChild,
 } from '@angular/core';
 import {
     CalendarCell,
-    OwlCalendarBodyComponent
+    OwlCalendarBodyComponent,
 } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
     OWL_DATE_TIME_FORMATS,
-    OwlDateTimeFormats
+    OwlDateTimeFormats,
 } from './adapter/date-time-format.class';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { SelectMode } from './date-time.class';
 import {
     DOWN_ARROW,
@@ -36,7 +36,7 @@ import {
     PAGE_DOWN,
     PAGE_UP,
     RIGHT_ARROW,
-    UP_ARROW
+    UP_ARROW,
 } from '@angular/cdk/keycodes';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 
@@ -49,10 +49,10 @@ const WEEKS_PER_VIEW = 6;
     templateUrl: './calendar-month-view.component.html',
     styleUrls: ['./calendar-month-view.component.scss'],
     host: {
-        '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
+        '[class.owl-dt-calendar-view]': 'owlDTCalendarView',
     },
     preserveWhitespaces: false,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OwlMonthViewComponent<T>
     implements OnInit, AfterContentInit, OnDestroy {
@@ -130,7 +130,7 @@ export class OwlMonthViewComponent<T>
     }
 
     set selecteds(values: T[]) {
-        this._selecteds = values.map(v => {
+        this._selecteds = values.map((v) => {
             v = this.dateTimeAdapter.deserialize(v);
             return this.getValidDate(v);
         });
@@ -179,6 +179,22 @@ export class OwlMonthViewComponent<T>
             this.cdRef.markForCheck();
         }
     }
+
+    /**
+     * A function used to assign css class.
+     */
+    private _dateClass: (date: T) => string;
+    @Input()
+    get dateClass() {
+        return this._dateClass;
+    }
+
+    set dateClass(filter: (date: T) => string) {
+        this._dateClass = filter;
+    }
+
+    @Input()
+    refreshCalendar: Subject<void>;
 
     /** The minimum selectable date. */
     private _minDate: T | null;
@@ -303,7 +319,7 @@ export class OwlMonthViewComponent<T>
         this.generateWeekDays();
 
         this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(
-            locale => {
+            (locale) => {
                 this.generateWeekDays();
                 this.generateCalendar();
                 this.firstDayOfWeek = this.isDefaultFirstDayOfWeek
@@ -312,6 +328,11 @@ export class OwlMonthViewComponent<T>
                 this.cdRef.markForCheck();
             }
         );
+
+        this.refreshCalendar?.subscribe(() => {
+            this.generateCalendar();
+            this.cdRef.markForCheck();
+        });
     }
 
     public ngAfterContentInit(): void {
@@ -555,7 +576,11 @@ export class OwlMonthViewComponent<T>
         // check if date is not in current month
         const dayValue = daysDiff + 1;
         const out = dayValue < 1 || dayValue > daysInMonth;
-        const cellClass = 'owl-dt-day-' + this.dateTimeAdapter.getDay(date);
+        const dateCellClass = this.dateClass?.(date) ?? '';
+        const cellClass =
+            'owl-dt-day-' +
+            this.dateTimeAdapter.getDay(date) +
+            ` ${dateCellClass}`;
 
         return new CalendarCell(
             dayValue,
@@ -629,7 +654,7 @@ export class OwlMonthViewComponent<T>
         }
 
         if (this.isInRangeMode && this.selecteds) {
-            this.selectedDates = this.selecteds.map(selected => {
+            this.selectedDates = this.selecteds.map((selected) => {
                 if (this.dateTimeAdapter.isValid(selected)) {
                     const dayDiff = this.dateTimeAdapter.differenceInCalendarDays(
                         selected,

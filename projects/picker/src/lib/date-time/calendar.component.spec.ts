@@ -24,7 +24,6 @@ import { ENTER, RIGHT_ARROW } from '@angular/cdk/keycodes';
 import { OwlMonthViewComponent } from './calendar-month-view.component';
 import { OwlYearViewComponent } from './calendar-year-view.component';
 import { OwlMultiYearViewComponent } from './calendar-multi-year-view.component';
-import {DateView} from './date-time.class';
 
 export const JAN = 0,
     FEB = 1,
@@ -81,7 +80,7 @@ describe('OwlCalendarComponent', () => {
         });
 
         it('should be in month view with specified month active', async(() => {
-            expect(calendarInstance.currentView).toBe(DateView.MONTH);
+            expect(calendarInstance.currentView).toBe('month');
             expect(calendarInstance.pickerMoment).toEqual(
                 new Date(2018, JAN, 31)
             );
@@ -94,7 +93,7 @@ describe('OwlCalendarComponent', () => {
             (monthCell as HTMLElement).click();
 
             fixture.detectChanges();
-            expect(calendarInstance.currentView).toBe(DateView.MONTH);
+            expect(calendarInstance.currentView).toBe('month');
             expect(testComponent.selected).toEqual(new Date(2018, JAN, 31));
         });
 
@@ -102,7 +101,7 @@ describe('OwlCalendarComponent', () => {
             periodButton.click();
             fixture.detectChanges();
 
-            expect(calendarInstance.currentView).toBe(DateView.MULTI_YEARS);
+            expect(calendarInstance.currentView).toBe('multi-years');
             expect(calendarInstance.pickerMoment).toEqual(
                 new Date(2018, JAN, 31)
             );
@@ -113,7 +112,7 @@ describe('OwlCalendarComponent', () => {
 
             fixture.detectChanges();
 
-            expect(calendarInstance.currentView).toBe(DateView.YEAR);
+            expect(calendarInstance.currentView).toBe('year');
 
             (calendarElement.querySelector(
                 '.owl-dt-calendar-cell-active'
@@ -128,7 +127,7 @@ describe('OwlCalendarComponent', () => {
             periodButton.click();
             fixture.detectChanges();
 
-            expect(calendarInstance.currentView).toBe(DateView.MULTI_YEARS);
+            expect(calendarInstance.currentView).toBe('multi-years');
             expect(calendarInstance.pickerMoment).toEqual(
                 new Date(2018, JAN, 31)
             );
@@ -212,7 +211,7 @@ describe('OwlCalendarComponent', () => {
 
                     expect(activeCell.focus).not.toHaveBeenCalled();
 
-                    calendarInstance.currentView = DateView.MULTI_YEARS;
+                    calendarInstance.currentView = 'multi-years';
                     fixture.detectChanges();
                     zone.simulateZoneExit();
 
@@ -225,7 +224,7 @@ describe('OwlCalendarComponent', () => {
                         fixture.detectChanges();
 
                         expect(calendarInstance.currentView).toBe(
-                            DateView.MULTI_YEARS
+                            'multi-years'
                         );
 
                         (calendarMainEl.querySelector(
@@ -233,7 +232,7 @@ describe('OwlCalendarComponent', () => {
                         ) as HTMLElement).click();
                         fixture.detectChanges();
 
-                        expect(calendarInstance.currentView).toBe(DateView.YEAR);
+                        expect(calendarInstance.currentView).toBe('year');
                     });
 
                     it('should return to month view on enter', () => {
@@ -251,7 +250,7 @@ describe('OwlCalendarComponent', () => {
                         dispatchKeyboardEvent(tableBodyEl, 'keydown', ENTER);
                         fixture.detectChanges();
 
-                        expect(calendarInstance.currentView).toBe(DateView.MONTH);
+                        expect(calendarInstance.currentView).toBe('month');
                         expect(calendarInstance.pickerMoment).toEqual(
                             new Date(2018, FEB, 28)
                         );
@@ -265,7 +264,7 @@ describe('OwlCalendarComponent', () => {
                         fixture.detectChanges();
 
                         expect(calendarInstance.currentView).toBe(
-                            DateView.MULTI_YEARS
+                            'multi-years'
                         );
                     });
 
@@ -284,7 +283,7 @@ describe('OwlCalendarComponent', () => {
                         dispatchKeyboardEvent(tableBodyEl, 'keydown', ENTER);
                         fixture.detectChanges();
 
-                        expect(calendarInstance.currentView).toBe(DateView.YEAR);
+                        expect(calendarInstance.currentView).toBe('year');
                         expect(calendarInstance.pickerMoment).toEqual(
                             new Date(2019, JAN, 31)
                         );

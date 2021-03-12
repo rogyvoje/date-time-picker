@@ -5,14 +5,15 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter,
+    Component,
+    EventEmitter,
     forwardRef,
     Inject,
     Input,
     OnInit,
     Optional,
     Output,
-    ViewChild
+    ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -20,19 +21,20 @@ import {
     OwlDateTime,
     PickerMode,
     PickerType,
-    SelectMode
+    SelectMode,
 } from './date-time.class';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
     OWL_DATE_TIME_FORMATS,
-    OwlDateTimeFormats
+    OwlDateTimeFormats,
 } from './adapter/date-time-format.class';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
+import { Subject } from 'rxjs';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => OwlDateTimeInlineComponent),
-    multi: true
+    multi: true,
 };
 
 @Component({
@@ -40,13 +42,14 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     templateUrl: './date-time-inline.component.html',
     styleUrls: ['./date-time-inline.component.scss'],
     host: {
-        '[class.owl-dt-inline]': 'owlDTInlineClass'
+        '[class.owl-dt-inline]': 'owlDTInlineClass',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
-    providers: [OWL_DATETIME_VALUE_ACCESSOR]
+    providers: [OWL_DATETIME_VALUE_ACCESSOR],
 })
-export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
+export class OwlDateTimeInlineComponent<T>
+    extends OwlDateTime<T>
     implements OnInit, ControlValueAccessor {
     @ViewChild(OwlDateTimeContainerComponent, { static: true })
     container: OwlDateTimeContainerComponent<T>;
@@ -147,9 +150,7 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
     }
 
     set endAt(date: T | null) {
-        this._endAt = this.getValidDate(
-            this.dateTimeAdapter.deserialize(date)
-        );
+        this._endAt = this.getValidDate(this.dateTimeAdapter.deserialize(date));
     }
 
     private _dateTimeFilter: (date: T | null) => boolean;
@@ -160,6 +161,26 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
 
     set dateTimeFilter(filter: (date: T | null) => boolean) {
         this._dateTimeFilter = filter;
+    }
+
+    private _dateClass: (date: T | null) => string;
+    @Input('dateClass')
+    get dateClass() {
+        return this._dateClass;
+    }
+
+    set dateClass(filter: (date: T | null) => string) {
+        this._dateClass = filter;
+    }
+
+    private _refreshCalendar: Subject<void>;
+    @Input()
+    get refreshCalendar(): Subject<void> {
+        return this._refreshCalendar;
+    }
+
+    set refreshCalendar(val: Subject<void>) {
+        this._refreshCalendar = val;
     }
 
     /** The minimum valid date. */
@@ -209,7 +230,7 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
 
     set values(values: T[]) {
         if (values && values.length > 0) {
-            values = values.map(v => {
+            values = values.map((v) => {
                 v = this.dateTimeAdapter.deserialize(v);
                 v = this.getValidDate(v);
                 return v ? this.dateTimeAdapter.clone(v) : null;
@@ -280,8 +301,8 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
         return true;
     }
 
-    private onModelChange: Function = () => { };
-    private onModelTouched: Function = () => { };
+    private onModelChange: Function = () => {};
+    private onModelTouched: Function = () => {};
 
     constructor(
         protected changeDetector: ChangeDetectorRef,

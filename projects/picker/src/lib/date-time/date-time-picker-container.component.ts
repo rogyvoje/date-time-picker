@@ -64,7 +64,7 @@ export class OwlDateTimeContainerComponent<T>
     // retain start and end time
     private retainStartTime: T;
     private retainEndTime: T;
-    
+
     /**
      * Stream emits when try to hide picker
      * */
@@ -199,6 +199,10 @@ export class OwlDateTimeContainerComponent<T>
 
     get owlDTContainerAnimation(): any {
         return this.picker.pickerMode === 'inline' ? '' : 'enter';
+    }
+
+    get refreshCalendar(): Subject<void> {
+        return this.picker.refreshCalendar;
     }
 
     constructor( private cdRef: ChangeDetectorRef,

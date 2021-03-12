@@ -1,6 +1,6 @@
 {
-  "name": "@danielmoncada/angular-datetime-picker",
-  "version": "11.0.0",
+  "name": "@rogyvoje/angular-datetime-picker",
+  "version": "10.3.0",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -17,16 +17,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielmoncada/date-time-picker.git"
+    "url": "https://github.com/rogyvoje/date-time-picker.git"
   },
-  "homepage": "https://github.com/danielmoncada/date-time-picker",
+  "homepage": "https://github.com/rogyvoje/date-time-picker",
   "publishConfig": {
     "access": "public"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
-    "@angular/core": "^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
-    "@angular/cdk": "^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0"
+    "@angular/common": "^8.0.0 || ^9.0.0 || ^10.0.0",
+    "@angular/core": "^8.0.0 || ^9.0.0 || ^10.0.0",
+    "@angular/cdk": "^8.0.0 || ^9.0.0 || ^10.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"

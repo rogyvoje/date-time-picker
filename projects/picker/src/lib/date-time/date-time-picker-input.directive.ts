@@ -33,7 +33,7 @@ import {
     OWL_DATE_TIME_FORMATS,
     OwlDateTimeFormats
 } from './adapter/date-time-format.class';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { SelectMode } from './date-time.class';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
@@ -111,6 +111,32 @@ export class OwlDateTimeInputDirective<T>
     private _dateTimeFilter: (date: T | null) => boolean;
     get dateTimeFilter() {
         return this._dateTimeFilter;
+    }
+
+    /**
+     * A function to style date cell
+     */
+    @Input()
+    set owlDateClass(filter: (date: T | null) => string) {
+        this._dateClass = filter;
+    }
+
+    private _dateClass: (date: T | null) => string;
+    get dateClass() {
+        return this._dateClass;
+    }
+
+    /**
+     * A function to style date cell
+     */
+    @Input()
+    set owlRefreshCalendar(subject: Subject<void>) {
+        this._refreshCalendar = subject;
+    }
+
+    private _refreshCalendar: Subject<void>;
+    get refreshCalendar() {
+        return this._refreshCalendar;
     }
 
     /** Whether the date time picker's input is disabled. */
@@ -464,7 +490,7 @@ export class OwlDateTimeInputDirective<T>
         if (!this.dateTimeAdapter) {
             throw Error(
                 `OwlDateTimePicker: No provider found for DateTimePicker. You must import one of the following ` +
-                    `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                    `modules at your application root: OwlNativeDateTimeModule, or provide a ` +
                     `custom implementation.`
             );
         }
@@ -472,7 +498,7 @@ export class OwlDateTimeInputDirective<T>
         if (!this.dateTimeFormats) {
             throw Error(
                 `OwlDateTimePicker: No provider found for OWL_DATE_TIME_FORMATS. You must import one of the following ` +
-                    `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                    `modules at your application root: OwlNativeDateTimeModule, or provide a ` +
                     `custom implementation.`
             );
         }

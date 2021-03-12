@@ -63,7 +63,7 @@
 </div>
 <div class="owl-dt-calendar-main" cdkMonitorSubtreeFocus [ngSwitch]="currentView" tabindex="-1">
     <owl-date-time-month-view
-            *ngSwitchCase="DateView.MONTH"
+            *ngSwitchCase="'month'"
             [pickerMoment]="pickerMoment"
             [firstDayOfWeek]="firstDayOfWeek"
             [selected]="selected"
@@ -72,13 +72,15 @@
             [minDate]="minDate"
             [maxDate]="maxDate"
             [dateFilter]="dateFilter"
+            [dateClass]="dateClass"
+            [refreshCalendar]="refreshCalendar"
             [hideOtherMonths]="hideOtherMonths"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (selectedChange)="dateSelected($event)"
             (userSelection)="userSelected()"></owl-date-time-month-view>
 
     <owl-date-time-year-view
-            *ngSwitchCase="DateView.YEAR"
+            *ngSwitchCase="'year'"
             [pickerMoment]="pickerMoment"
             [selected]="selected"
             [selecteds]="selecteds"
@@ -89,10 +91,10 @@
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (monthSelected)="selectMonthInYearView($event)"
-            (change)="goToDateInView($event, DateView.MONTH)"></owl-date-time-year-view>
+            (change)="goToDateInView($event, 'month')"></owl-date-time-year-view>
 
     <owl-date-time-multi-year-view
-            *ngSwitchCase="DateView.MULTI_YEARS"
+            *ngSwitchCase="'multi-years'"
             [pickerMoment]="pickerMoment"
             [selected]="selected"
             [selecteds]="selecteds"
@@ -103,5 +105,5 @@
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (yearSelected)="selectYearInMultiYearView($event)"
-            (change)="goToDateInView($event, DateView.YEAR)"></owl-date-time-multi-year-view>
+            (change)="goToDateInView($event, 'year')"></owl-date-time-multi-year-view>
 </div>
