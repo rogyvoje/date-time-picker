@@ -9,7 +9,7 @@
 
 ## Breaking Changes
 
--   The date/time picker has been updated to support Angular 9+, Angular 10, as well as compilation using Ivy.
+-   The date/time picker has been updated to support Angular 9+, as well as compilation using Ivy.
 -   If you need Ng8 support, please stick with: https://github.com/DanielYKPan/date-time-picker
 
 ## Description
